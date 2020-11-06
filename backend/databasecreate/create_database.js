@@ -80,8 +80,6 @@ mongoose.connect('mongodb://localhost:27017/testdict', { useUnifiedTopology: tru
           if (wordCount > 0) {
             trueWord['word'] = word;
             trueWord['pronunciation'] = pronunciation;
-            trueWord['collocations'].push({ ...collocation });
-            trueWord['datas'].push({ ...wordData });
             WordModel.create(trueWord, (err) => {
               if (err) {
                 console.log(err);
