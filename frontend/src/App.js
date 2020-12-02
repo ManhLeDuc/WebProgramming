@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
+// import 'bootstrap-css-only/css/bootstrap.min.css';
+// import 'mdbreact/dist/css/mdb.css';
+import HeaderWeb from './components/HeaderWeb';
+import SearchBar from './components/SearchBar';
+import Footer from './components/Footer';
+import HomeScreen from './components/HomeScreen';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default class App extends Component {
+  render() {
+    return (
+      <div>
+        {/* <HeaderWeb />
+        <SearchBar /> */}
+        <BrowserRouter>
+          <Switch>
+            <Route path='/' component={HomeScreen} exact={true} />
+            
+          </Switch>
+        </BrowserRouter>
+      </div>
+    )
+  }
 }
-
-export default App;
