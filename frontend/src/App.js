@@ -3,11 +3,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // import '@fortawesome/fontawesome-free/css/all.min.css';
 // import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
-import HeaderWeb from './components/HeaderWeb';
-import SearchBar from './components/SearchBar';
-import Footer from './components/Footer';
-import HomeScreen from './components/HomeScreen';
 
+import HomeScreen from './components/HomeScreen';
+import LoginScreen from './components/LoginScreen';
 
 export default class App extends Component {
   render() {
@@ -18,7 +16,7 @@ export default class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path='/' component={HomeScreen} exact={true} />
-            
+            <Route path='/login' component={LoginScreen}  />
           </Switch>
         </BrowserRouter>
       </div>
