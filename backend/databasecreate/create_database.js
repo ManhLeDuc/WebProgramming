@@ -78,7 +78,7 @@ mongoose.connect('mongodb://localhost:27017/testdict', { useUnifiedTopology: tru
       try {
         if (line.startsWith("@")) {
           if (wordCount > 0) {
-            trueWord['word'] = word;
+            trueWord['word'] = word.trim();
             trueWord['pronunciation'] = pronunciation;
             WordModel.create(trueWord, (err) => {
               if (err) {
