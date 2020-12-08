@@ -31,14 +31,14 @@ export default class HeaderWeb extends Component {
                                 </li>
                             </ul>
 
-                            
+
                         </div>
                         <ul className="nav navbar-nav navbar-right" >
-                                {/* <li><a href="#"> */}
-                                    {/* <span className="glyphicon glyphicon-user"> </span> Sign Up </a></li> */}
-                               
-                                <li><a href="#"><span className="glyphicon glyphicon-log-in"> </span> Login</a></li>
-                            </ul>
+                            {/* <li><a href="#"> */}
+                            {/* <span className="glyphicon glyphicon-user"> </span> Sign Up </a></li> */}
+
+                            <li><a href="#"><span className="glyphicon glyphicon-log-in"> </span> Login</a></li>
+                        </ul>
                     </nav>
                 </header>
             </div>

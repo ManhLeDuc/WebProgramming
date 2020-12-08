@@ -1,22 +1,78 @@
 import React, { Component } from 'react'
-//import hihi from '../static/image/138254.svg'
-export default class SearchBar extends Component {
 
+export default class SearchBar extends Component {
+    
+    state = {
+        currentWord: "",
+        regexWords: [],
+    }
+
+    handleChange = async (e) => {
+        this.setState({ currentWord: e.target.value });
+        if (e.target.value !== "") {
+            try {
+                const result = await fetch(`http://localhost:3001/api/wordsByRegex/${e.target.value}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                }).then((res) => { return res.json(); });
+                this.setState({
+                    regexWords: result.data,
+                });
+            }
+            catch (error) {
+                window.alert(error.message);
+            }
+        }
+        else {
+            this.setState({
+                regexWords: []
+            })
+        }
+
+    };
+
+    handleSuggestClick = (selectedWord) => {
+        this.setState({
+            currentWord: selectedWord,
+            regexWords: [],
+        })
+    };
+
+    searchWord = () => {
+        this.props.parentCallBack(this.state.currentWord);
+        this.setState({
+            regexWords: [],
+        });
+    }
 
     render() {
+
         return (
-            <div className="input-group input-group-lg md-form form-sm form-1 pl-0 border border-success" >
-                <div className="input-group-prepend ">
-                    <span className="input-group-text cyan lighten-2 " id="basic-text1"><i class="fas fa-search text-dark"
-                        aria-hidden="true"></i></span>
+            <div className="container" >
+                <form onSubmit={this.searchWord}>
+                    <input className="form-control my-0 text-dark" type="text" placeholder="Search" aria-label="Search"
+                        value={this.state.currentWord}
+                        onChange={this.handleChange}  
+                    />
+                    
+                </form>
+
+                <div className="list-group">
+                    {this.state.regexWords.map((value, index) => {
+                        return (
+                            <div className="list-group-item list-group-item-action list-group-item-light" role="alert" onClick={() => {
+                                this.handleSuggestClick(value.word);
+                            }}>
+                                { value.word}
+                            </div>
+                        )
+                    })}
                 </div>
-                <input className="form-control my-0 py-1 text-dark" type="text" placeholder="Search" aria-label="Search" />
+
             </div>
-
-
-
-
-
         )
     }
 }

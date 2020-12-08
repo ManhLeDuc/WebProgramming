@@ -23,11 +23,11 @@ export default class Footer extends Component {
                                 </div>
                                 <div className="col-md-6 col-lg-7 text-center text-md-right "  >
                                     <a className="fb-ic"
-                                     href = 'https://www.facebook.com/nnguyenlongnhat/' 
-                                    target = "_blank"
-                                    
+                                        href='https://www.facebook.com/nnguyenlongnhat/'
+                                        target="_blank"
+
                                     >
-                                       Facebook {/* <i className="fab fa-facebook-f white-text mr-4 fa-2x "  > </i> */}
+                                        Facebook {/* <i className="fab fa-facebook-f white-text mr-4 fa-2x "  > </i> */}
                                     </a>
 
                                     <a className="tw-ic">
@@ -35,7 +35,7 @@ export default class Footer extends Component {
                                     </a>
                                     <span> </span>
                                     <a className="gplus-ic">
-                                       {/* <i className="fab fa-google-plus-g  mr-4 fa-2x"> </i> */}
+                                        {/* <i className="fab fa-google-plus-g  mr-4 fa-2x"> </i> */}
                                     </a>
 
                                     <a className="li-ic">
@@ -45,7 +45,7 @@ export default class Footer extends Component {
                                     <a className="ins-ic">
                                         Instagram{/* <i className="fab fa-instagram fa-2x"> </i> */}
                                     </a>
-                                    
+
                                 </div>
 
 
