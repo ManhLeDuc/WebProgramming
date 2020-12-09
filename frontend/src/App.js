@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import HomeScreen from './components/HomeScreen';
 import LoginScreen from './components/LoginScreen';
 import SignUpScreen from './components/SignUpScreen';
+import Main from './components/Main';
 export default class App extends Component {
   render() {
     return (
@@ -18,6 +19,7 @@ export default class App extends Component {
             <Route path='/' component={HomeScreen} exact={true} />
             <Route path='/login' component={LoginScreen}  />
             <Route path='/signup' component={SignUpScreen}  />
+            <Route path='/flashcard' component={Main}  />
 
           </Switch>
         </BrowserRouter>
