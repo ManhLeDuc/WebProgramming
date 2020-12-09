@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 //import hihi from '../static/image/138254.svg'
+import './HomeScreen.css';
 export default class Content extends Component {
 
 
@@ -7,7 +8,7 @@ export default class Content extends Component {
         return (
             <div className="container">
 					<div className="row">
-						<div className="col-8">
+						<div className="col-8 ">
 							<div className="form-group" >
 								<label for="exampleFormControlTextarea1">Content textarea</label>
 								<textarea readonly='readonly' className="form-control" id="exampleFormControlTextarea1" rows="50" >
