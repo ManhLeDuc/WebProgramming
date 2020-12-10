@@ -29,7 +29,11 @@ export default class Content extends Component {
 
 									<label for="exampleFormControlTextarea1">Video textarea</label>
 									<div className="embed-responsive embed-responsive-16by9 ">
-										<iframe className="embed-responsive-item" src="https://www.youtube.com/embed/vlDzYIIOYmM"
+										{/* <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/vlDzYIIOYmM"
+											allowfullscreen></iframe> */}
+											<iframe width="560" height="315" src="https://www.youtube.com/embed/TI-pfeaErY4" 
+											frameborder="0" 
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 											allowfullscreen></iframe>
 									</div>
 									<div className="card my-4">

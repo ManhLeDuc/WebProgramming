@@ -17,7 +17,7 @@ class Card extends Component {
     
         return (
           <div 
-            className={`card ${cardClass}`}
+            className={`card1 ${cardClass}`}
             onClick={() => this.setState({showAnswer: !this.state.showAnswer})}
           >
           <span className='card__counter'>{this.props.cardNumber + 1}</span>

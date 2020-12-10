@@ -25,24 +25,24 @@ export default class Footer extends Component {
                                     <a className="fb-ic"
                                         href='https://www.facebook.com/nnguyenlongnhat/'
                                         target="_blank"
-
+                                        rel="noreferrer"
                                     >
                                         Facebook {/* <i className="fab fa-facebook-f white-text mr-4 fa-2x "  > </i> */}
                                     </a>
 
-                                    <a className="tw-ic">
+                                    <a className="tw-ic" href="#">
                                         Twitter{/* <i className="fab fa-twitter mr-4 fa-2x"> </i> */}
                                     </a>
                                     <span> </span>
-                                    <a className="gplus-ic">
+                                    <a className="gplus-ic" href="#">
                                         {/* <i className="fab fa-google-plus-g  mr-4 fa-2x"> </i> */}
                                     </a>
 
-                                    <a className="li-ic">
+                                    <a className="li-ic" href="#">
                                         {/* <i className="fab fa-linkedin-in  mr-4 fa-2x"> </i> */}
                                     </a>
 
-                                    <a className="ins-ic">
+                                    <a className="ins-ic" href="#">
                                         Instagram{/* <i className="fab fa-instagram fa-2x"> </i> */}
                                     </a>
 
