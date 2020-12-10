@@ -3,10 +3,9 @@ import React, { Component } from 'react'
 import DataContent from './DataContent'
 export default class WordContent extends Component {
 
+
+
 	updateContent = async (content) => {
-		this.setState({
-			word: content,
-		});
 		try {
 			const result = await fetch(`http://localhost:3001/api/wordByName/${content}`, {
 				method: 'GET',
@@ -14,12 +13,21 @@ export default class WordContent extends Component {
 					'Content-Type': 'application/json',
 				},
 				credentials: 'include',
-			}).then((res) => { return res.json(); });
-			console.log(result.data);
-			this.setState({
-				pronunciation: result.data.pronunciation,
-				datas: result.data.datas
-			})
+			}).then((res) => {
+				return res.json();
+			});
+			console.log(result);
+			if (result.sucess) {
+				this.setState({
+					word: result.data.word,
+					pronunciation: result.data.pronunciation,
+					datas: result.data.datas
+				})
+			}
+			else {
+				window.alert(result.message);
+			}
+
 		}
 		catch (error) {
 			window.alert(error.message);
@@ -43,7 +51,7 @@ export default class WordContent extends Component {
 				</div>
 				{this.state.datas.map((value, index) => {
 					return (
-						<DataContent type={value.type} meanings={value.meanings}></DataContent> 
+						<DataContent type={value.type} meanings={value.meanings}></DataContent>
 					)
 				})}
 			</div>

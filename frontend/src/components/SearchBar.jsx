@@ -41,7 +41,8 @@ export default class SearchBar extends Component {
         })
     };
 
-    searchWord = () => {
+    searchWord = (event) => {
+        event.preventDefault();
         this.props.parentCallBack(this.state.currentWord);
         this.setState({
             regexWords: [],
