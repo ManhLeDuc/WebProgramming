@@ -3,9 +3,15 @@ import React, { Component } from 'react'
 import DataContent from './DataContent'
 export default class WordContent extends Component {
 
-
+	state = {
+		word: "",
+		pronunciation: "",
+		datas: [],
+		collocations: [],
+	}
 
 	updateContent = async (content) => {
+
 		try {
 			const result = await fetch(`http://localhost:3001/api/wordByName/${content}`, {
 				method: 'GET',
@@ -17,7 +23,7 @@ export default class WordContent extends Component {
 				return res.json();
 			});
 			console.log(result);
-			if (result.sucess) {
+			if (result.success) {
 				this.setState({
 					word: result.data.word,
 					pronunciation: result.data.pronunciation,
@@ -32,13 +38,6 @@ export default class WordContent extends Component {
 		catch (error) {
 			window.alert(error.message);
 		}
-	}
-
-	state = {
-		word: "",
-		pronunciation: "",
-		datas: [],
-		collocations: [],
 	}
 
 	render() {
