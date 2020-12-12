@@ -37,7 +37,7 @@ export default class HeaderWeb extends Component {
                             {/* <li><a href="#"> */}
                             {/* <span className="glyphicon glyphicon-user"> </span> Sign Up </a></li> */}
 
-                            <li><a href="#"><span className="glyphicon glyphicon-log-in"> </span> Login</a></li>
+                            <li><a href="login"><span className="glyphicon glyphicon-log-in"> </span> Login</a></li>
                         </ul>
                     </nav>
                 </header>

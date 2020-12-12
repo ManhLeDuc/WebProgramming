@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import TextField from '@material-ui/core/TextField';
+import './SearchBar.css'
 
 export default class SearchBar extends Component {
-    
+
     state = {
         currentWord: "",
         regexWords: [],
@@ -49,29 +51,42 @@ export default class SearchBar extends Component {
         });
     }
 
+    resetRegex = (event) => {
+        this.setState({
+            regexWords: [],
+        })
+    }
+
     render() {
 
         return (
             <div className="container" >
                 <form onSubmit={this.searchWord}>
-                    <input className="form-control my-0 text-dark" type="text" placeholder="Search" aria-label="Search"
+                    <TextField label="Search"
+                        variant="outlined"
+                        fullWidth={true}
                         value={this.state.currentWord}
-                        onChange={this.handleChange}  
+                        onChange={this.handleChange}
+                        onBlur={this.resetRegex}
                     />
-                    
-                </form>
 
-                <div className="list-group">
-                    {this.state.regexWords.map((value, index) => {
-                        return (
-                            <div className="list-group-item list-group-item-action list-group-item-light" role="alert" onClick={() => {
-                                this.handleSuggestClick(value.word);
-                            }}>
-                                { value.word}
-                            </div>
-                        )
-                    })}
-                </div>
+
+                </form>
+                {this.state.regexWords.length !== 0 ?
+                    <div className="list-group">
+                        {this.state.regexWords.map((value, index) => {
+                            return (
+                                <div className="list-group-item list-group-item-action list-group-item-light" role="alert" onMouseDown={() => {
+                                    this.handleSuggestClick(value.word);
+                                }}>
+                                    { value.word}
+                                </div>
+                            )
+                        })}
+                    </div>
+                    : null
+                }
+
 
             </div>
         )
