@@ -59,3 +59,5 @@ process.on('SIGTERM', () => {
 connect();
 
 require('./words');
+require('./users');
+require('./wordGroups');
