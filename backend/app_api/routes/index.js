@@ -3,7 +3,8 @@ const router = express.Router();
 const jwt = require('express-jwt');
 const auth = jwt({
   secret: process.env.JWT_SECRET,
-  userProperty: 'payload'
+  userProperty: 'payload',
+  algorithms: ['RS256']
 })
 
 const ctrlWords = require('../controllers/words');
@@ -23,13 +24,19 @@ router
   .get(ctrlWords.wordById);
 
 router
-  .route('/wordGroup/:wordGroupId')
+  .route('/wordGroups')
+  .get(auth, ctrWordGroups.getAllWordGroups)
+  .put(auth, ctrWordGroups.createWordGroup);
+  
+
+router
+  .route('/wordGroups/:wordGroupId')
   .get(auth, ctrWordGroups.getWordGroup)
   .put(auth, ctrWordGroups.updateWordGroup)
   .delete(auth, ctrWordGroups.deleteWordGroup);
 
 router
-  .route('/wordGroup/:wordGroupId/word/:wordId')
+  .route('/wordGroups/:wordGroupId/words/:wordId')
   .get(auth, ctrWordGroups.getWordFromGroup)
   .put(auth, ctrWordGroups.addWordToGroup)
   .delete(auth, ctrWordGroups.deleteWordFromGroup);

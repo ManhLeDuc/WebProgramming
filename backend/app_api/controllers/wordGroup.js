@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const WordGroupModel = mongoose.model('WordGroup');
+const WordModel = mongoose.model('Word');
 
 const authenOwnerWordGroup = (req, res, callback) => {
   if (req.params.locationid && req.payload && req.payload._id) {
@@ -87,12 +88,55 @@ const deleteWordGroup = (req, res) => {
     });
 }
 
+const getAllWordGroups = (req, res) => {
+  if (req.payload && req.payload._id) {
+    WordGroupModel
+      .find({ 'owner': req.payload._id })
+      .select('name')
+      .exec((err, records) => {
+        if (err) {
+          return res
+            .status(404)
+            .json(err);
+        }
+        else {
+          return res
+            .status(200)
+            .json(records);
+        }
+      })
+  }
+  else {
+    return res
+      .status(404)
+      .json({ "message": "Bad Request" });
+  }
+}
+
 const getWordGroup = (req, res) => {
   authenOwnerWordGroup(req, res,
     (req, res, wordGroup) => {
-      return res
-        .status(200)
-        .json(wordGroup);
+      WordModel
+        .find()
+        .where('_id')
+        .in(wordGroup.wordIds)
+        .select({ "word": 1, "_id": 0 })
+        .exec((err, wordRecords) => {
+          if (err) {
+            return res
+              .status(404)
+              .json(err);
+          }
+          else {
+            return res
+              .status(200)
+              .json({
+                wGroup: wordGroup,
+                words: wordRecords
+              });
+          }
+        })
+
     });
 };
 
@@ -127,6 +171,7 @@ module.exports = {
   createWordGroup,
   updateWordGroup,
   deleteWordGroup,
+  getAllWordGroups,
   getWordGroup,
   getWordFromGroup,
   addWordToGroup,

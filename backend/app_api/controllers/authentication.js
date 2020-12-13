@@ -2,6 +2,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
+const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
 const register = (req, res) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
     return res
@@ -9,22 +11,33 @@ const register = (req, res) => {
       .json({ "message": "All fields required" });
   }
 
-  const user = new User();
-  user.name = req.body.name;
-  user.email = req.body.email;
-  user.setPassword(req.body.password);
-  user.save((err) => {
-    if (err) {
-      res
-        .status(400)
-        .json(err);
-    } else {
-      const token = user.generateJwt();
-      res
-        .status(200)
-        .json({ token });
-    }
-  })
+  if (!emailRegex.test(req.body.email)) {
+    res.status(400).json({
+      message: 'Invalid email adress',
+    });
+  } else if (req.body.password.length < 6) {
+    res.status(400).json({
+      message: 'Password must be at least 6 characters',
+    });
+  } else {
+    const user = new User();
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.setPassword(req.body.password);
+    user.save((err) => {
+      if (err) {
+        res
+          .status(400)
+          .json(err);
+      } else {
+        const token = user.generateJwt();
+        res
+          .status(200)
+          .json({ token });
+      }
+    });
+  }
+
 };
 
 const login = (req, res) => {
