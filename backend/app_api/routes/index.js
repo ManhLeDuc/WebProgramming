@@ -4,7 +4,7 @@ const jwt = require('express-jwt');
 const auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload',
-  algorithms: ['RS256']
+  algorithms: ['sha1', 'RS256', 'HS256']
 })
 
 const ctrlWords = require('../controllers/words');

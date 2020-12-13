@@ -3,7 +3,7 @@ const WordGroupModel = mongoose.model('WordGroup');
 const WordModel = mongoose.model('Word');
 
 const authenOwnerWordGroup = (req, res, callback) => {
-  if (req.params.locationid && req.payload && req.payload._id) {
+  if (req.params.wordGroupId && req.payload && req.payload._id) {
     WordGroupModel
       .findById(req.params.wordGroupId)
       .exec((err, wordGroup) => {
@@ -16,18 +16,38 @@ const authenOwnerWordGroup = (req, res, callback) => {
           return res
             .status(404)
             .json(err);
-        } else if (wordGroup.owner !== req.payload._id) {
+        } else if (wordGroup.owner.toString() !== req.payload._id) {
           return res
             .status(404)
             .json({ "message": "Bad Request" });
+        } else {
+          callback(req, res, wordGroup);
         }
-        callback(req, res, wordGroup);
+
       });
   } else {
     return res
       .status(404)
       .json({ "message": "Bad Request" });
   }
+}
+
+const validateWordId = (req, res, callback) => {
+  WordModel.findById(req.params.wordId).exec((err, wordRecord) => {
+    if (err) {
+      return res
+        .status(404)
+        .json(err);
+    }
+    else if (!wordRecord) {
+      return res
+        .status(404)
+        .json({ message: "Invalid Word ID" });
+    }
+    else {
+      callback(req, res, wordRecord)
+    }
+  })
 }
 
 const createWordGroup = (req, res) => {
@@ -38,6 +58,7 @@ const createWordGroup = (req, res) => {
   },
     (err, wGroup) => {
       if (err) {
+        console.log(err);
         res
           .status(400)
           .json(err);
@@ -143,29 +164,71 @@ const getWordGroup = (req, res) => {
 const getWordFromGroup = (req, res) => {
   authenOwnerWordGroup(req, res,
     (req, res, wordGroup) => {
-      return res
-        .status(200)
-        .json(wordGroup);
+      validateWordId(req, res,
+        (req, res, wordRecord) => {
+          return res
+            .status(200)
+            .json(wordRecord);
+        })
     });
 }
 
 const addWordToGroup = (req, res) => {
   authenOwnerWordGroup(req, res,
     (req, res, wordGroup) => {
-      return res
-        .status(200)
-        .json(wordGroup);
-    });
-}
+      validateWordId(req, res,
+        (req, res, wordRecord) => {
+          wordGroup.wordIds.addToSet(req.params.wordId);
+          wordGroup.save((err, wGroup) => {
+            if (err) {
+              return res
+                .status(404)
+                .json(err);
+            }
+            else {
+              return res
+                .status(200)
+                .json(wGroup);
+            }
+          })
+        })
+
+    }
+  )
+};
 
 const deleteWordFromGroup = (req, res) => {
   authenOwnerWordGroup(req, res,
     (req, res, wordGroup) => {
-      return res
-        .status(200)
-        .json(wordGroup);
+      validateWordId(req, res,
+        (req, res, wordRecord) => {
+          if (wordGroup.wordIds.length > 0) {
+            if (!wordGroup.wordIds.includes(req.params.wordId)) {
+              return res
+                .status(404)
+                .json({ message: 'Word not found in Group' });
+            }
+            else {
+              wordGroup.wordIds.remove(req.params.wordId);
+              wordGroup.save((err, wGroup) => {
+                if (err) {
+                  return res
+                    .status(404)
+                    .json(err);
+                }
+                else {
+                  return res
+                    .status(200)
+                    .json(wGroup);
+                }
+              });
+            }
+          }
+        });
     });
 }
+
+
 
 module.exports = {
   createWordGroup,

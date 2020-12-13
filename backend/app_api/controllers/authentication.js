@@ -68,7 +68,7 @@ const login = (req, res) => {
 const userInfo = (req, res) => {
   if (req.payload && req.payload._id) {
     User
-      .findById(req.payload._id, { password: 0 })
+      .findById(req.payload._id, { hash: 0, salt: 0 })
       .exec((err, user) => {
         if (!user) {
           return res
