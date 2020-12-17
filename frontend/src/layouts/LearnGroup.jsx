@@ -87,6 +87,10 @@ class LearnGroup extends Component {
 
   constructor(props) {
     super(props);
+    if (!authenticationService.currentUserValue) {
+      window.alert("You must login");
+      window.location.href = '/'
+    }
     this.frontFace = React.createRef();
     this.backFace = React.createRef();
   }
