@@ -11,7 +11,7 @@ export default class Footer extends Component {
       <div>
         <footer
           className="page-footer font-small blue-grey lighten-5 "
-          style={{ backgroundColor: "#FFFACD" }}
+          style={{ backgroundColor: "#FFFACD" }, {bottom: 0}}
         >
           <div>
             <div className="container">

@@ -24,15 +24,6 @@ class HomePage extends Component {
         <SearchBar parentCallBack={this.updateContent} />
         <Content ref={this.childContent} />
         <Footer />
-        <br />
-        <a
-          id="back-to-top"
-          href="#"
-          className="btn btn-light btn-lg back-to-top grey-text"
-          role="button"
-        >
-          <span className="fas fa-chevron-up">Top</span>
-        </a>
       </div>
     );
   }
