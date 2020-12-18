@@ -21,7 +21,7 @@ exports.authOwnerWordGroup = (req, res, next) => {
   }
 };
 
-exports.validateWordId = (req, res, next) => {
+exports.wordIdIfExist = (req, res, next) => {
   WordModel.findById(req.params.wordId).exec((err, wordRecord) => {
     if (err) {
       return res.status(404).json(err);

@@ -17,7 +17,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <HeaderWeb></HeaderWeb>
+        <HeaderWeb />
         <br />
         <br />
         <br />

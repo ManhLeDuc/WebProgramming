@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import HeaderWeb from "../components/HeaderWeb";
 import Footer from "../components/Footer";
-import { authHeader } from '../helpers';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import { authHeader } from "../helpers";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { authenticationService } from "./../services/authentication.service";
 
-import RenameGroupButton from "../components/RenameGroupButton"
-
-
+import RenameGroupButton from "../components/RenameGroupButton";
 
 function AddGroupButton(props) {
   const [show, setShow] = React.useState(false);
@@ -20,25 +19,28 @@ function AddGroupButton(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleInputChange = (event) => { setInput(event.target.value) }
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
   const handleSubmit = async () => {
     try {
       const result = await fetch(`http://localhost:3001/api/wordGroups`, {
-        method: 'PUT',
+        method: "PUT",
         headers: authHeader(),
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify({
-          name: input
+          name: input,
         }),
-      }).then((res) => { return res.json(); })
+      }).then((res) => {
+        return res.json();
+      });
 
       console.log(result);
       props.resetData();
-    }
-    catch (error) {
+    } catch (error) {
       window.alert(error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -71,75 +73,78 @@ function AddGroupButton(props) {
   );
 }
 
-
 class WordGroup extends Component {
-
   constructor(props) {
     super(props);
     if (!authenticationService.currentUserValue) {
       window.alert("You must login");
-      window.location.href = '/'
+      window.location.href = "/";
     }
   }
 
   handleOnClick = () => {
-    window.location.href = `/wordGroups/${this.props.id}`
-  }
+    window.location.href = `/wordGroups/${this.props.id}`;
+  };
 
   render() {
     return (
       <div className="col-lg-5 col-md-9">
         <div className="card">
           <div class="card-body">
-            <h5 class="card-title " style={{ textAlign: "left" }}>{this.props.title}</h5>
+            <h5 class="card-title " style={{ textAlign: "left" }}>
+              {this.props.title}
+            </h5>
             <div className="d-flex justify-content-around">
-              <RenameGroupButton id={this.props.id} resetData={this.props.resetData} oldTitle={this.props.title}></RenameGroupButton>
-              <Button variant="primary" onClick={this.handleOnClick}>Show Detail</Button>
+              <RenameGroupButton
+                id={this.props.id}
+                resetData={this.props.resetData}
+                oldTitle={this.props.title}
+              ></RenameGroupButton>
+              <Button variant="primary" onClick={this.handleOnClick}>
+                Show Detail
+              </Button>
             </div>
           </div>
         </div>
       </div>
-
     );
-  };
+  }
 }
 
 class LearningPage extends Component {
-
   constructor(props) {
     super(props);
   }
 
   state = {
     wordGroups: [],
-  }
+  };
 
   getData = async () => {
     try {
       const result = await fetch(`http://localhost:3001/api/wordGroups`, {
-        method: 'GET',
+        method: "GET",
         headers: authHeader(),
-        credentials: 'include',
-      }).then((res) => { return res.json(); })
+        credentials: "include",
+      }).then((res) => {
+        return res.json();
+      });
       this.setState({
-        wordGroups: result
+        wordGroups: result,
       });
       console.log(this.state.wordGroups);
-    }
-    catch (error) {
+    } catch (error) {
       window.alert(error.message);
     }
-  }
+  };
 
   componentWillMount() {
     this.getData();
-
   }
 
   render() {
     return (
       <div>
-
         <HeaderWeb></HeaderWeb>
         <br />
         <br />
@@ -157,7 +162,6 @@ class LearningPage extends Component {
                 <Divider />
 
                 <AddGroupButton resetData={this.getData}></AddGroupButton>
-
               </List>
             </div>
             <div className="col-8">
@@ -166,21 +170,26 @@ class LearningPage extends Component {
                   <h1 style={{ textAlign: "left" }}>All Word Groups</h1>
                 </div>
               </div>
-              <div className="row d-flex flex-row justify-content-start" style={{ maxHeight: "500px" },{overflow:"scroll"}}>
+              <div
+                className="row d-flex flex-row justify-content-start"
+                style={({ maxHeight: "500px" }, { overflow: "scroll" })}
+              >
                 {this.state.wordGroups.map((value, index) => {
                   return (
-                    <WordGroup id={value._id} title={value.name} resetData={this.getData}></WordGroup>
-                  )
+                    <WordGroup
+                      id={value._id}
+                      title={value.name}
+                      resetData={this.getData}
+                    ></WordGroup>
+                  );
                 })}
-
               </div>
             </div>
           </div>
-
         </div>
         <Footer></Footer>
-
-      </div>);
+      </div>
+    );
   }
 }
 

@@ -5,6 +5,40 @@
   text-align: center;
   font-family: "Roboto", sans-serif;
   background: #fafafa;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+a {
+  color: rgb(0, 0, 0);
+  text-decoration: none !important;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+a:hover {
+  color: green;
+  font-size: 120%;
+  font-weight: 110%;
+}
+
+.header-bar-link {
+  color: white;
+}
+
+.header-bar-link:hover {
+  color: white;
+  font-weight: 120%;
+}
+
+.signup-link {
+  color: white;
+  text-decoration: underline;
+}
+
+.signup-link:hover {
+  color: white;
+  font-weight: 120%;
 }
 
 .App-logo {

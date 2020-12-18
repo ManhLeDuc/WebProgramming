@@ -10,7 +10,7 @@ const router = express.Router();
 const jwt = require("express-jwt");
 
 // INstantiating the express-jwt middleware
-const auth = jwt({
+const authAdmin = jwt({
   secret: process.env.JWT_ADMIN_SECRET,
   userProperty: "payload",
   algorithms: ["sha1", "RS256", "HS256"],
@@ -18,7 +18,7 @@ const auth = jwt({
 //-----------------------------------------
 
 router.route("/me").get(
-  auth,
+  authAdmin,
   (req, res, next) => {
     res.send("You are authenticated as a admin");
     next();
@@ -26,7 +26,7 @@ router.route("/me").get(
   adminController.getAdminInfo
 );
 
-router.post("/register", authController.adminRegister);
+router.route("/addAdmin").post(authAdmin, authController.addAdmin);
 router.post("/login", authController.adminLogin);
 
 module.exports = router;

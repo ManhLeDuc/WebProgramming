@@ -8,7 +8,7 @@ const router = express.Router();
 const jwt = require("express-jwt");
 
 // INstantiating the express-jwt middleware
-const auth = jwt({
+const authRegularUser = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: "payload",
   algorithms: ["sha1", "RS256", "HS256"],
@@ -18,15 +18,15 @@ const auth = jwt({
 router
   .route("/")
   .get(
-    auth,
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
     },
     wordGroupController.getAllWordGroups
   )
-  .put(
-    auth,
+  .post(
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
@@ -37,7 +37,7 @@ router
 router
   .route("/:wordGroupId")
   .get(
-    auth,
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
@@ -45,8 +45,8 @@ router
     wordGroupController.authOwnerWordGroup,
     wordGroupController.getWordGroup
   )
-  .put(
-    auth,
+  .patch(
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
@@ -55,7 +55,7 @@ router
     wordGroupController.updateWordGroup
   )
   .delete(
-    auth,
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
@@ -67,33 +67,33 @@ router
 router
   .route("/:wordGroupId/words/:wordId")
   .get(
-    auth,
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
     },
     wordGroupController.authOwnerWordGroup,
-    wordGroupController.validateWordId,
+    wordGroupController.wordIdIfExist,
     wordGroupController.getWordFromGroup
   )
-  .put(
-    auth,
+  .patch(
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
     },
     wordGroupController.authOwnerWordGroup,
-    wordGroupController.validateWordId,
+    wordGroupController.wordIdIfExist,
     wordGroupController.addWordToGroup
   )
   .delete(
-    auth,
+    authRegularUser,
     (req, res, next) => {
       res.send("You are authenticated");
       next();
     },
     wordGroupController.authOwnerWordGroup,
-    wordGroupController.validateWordId,
+    wordGroupController.wordIdIfExist,
     wordGroupController.deleteWordFromGroup
   );
 

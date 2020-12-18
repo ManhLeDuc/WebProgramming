@@ -51,7 +51,7 @@ exports.login = (req, res) => {
   })(req, res);
 };
 
-exports.adminRegister = (req, res) => {
+exports.addAdmin = (req, res) => {
   if (
     !req.body.name ||
     !req.body.email ||
@@ -69,7 +69,7 @@ exports.adminRegister = (req, res) => {
     res.status(400).json({
       message: "Password must be at least 8 characters",
     });
-  } else if (req.body.code != process.env.JWT_SECRET) {
+  } else if (req.body.code != process.env.JWT_ADMIN_SECRET) {
     res.status(401).json({
       message: "Wrong code",
     });

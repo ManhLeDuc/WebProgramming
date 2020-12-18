@@ -31,6 +31,4 @@ const WordSchema = new mongoose.Schema({
   collocations: [CollocationSchema],
 });
 
-const Word = mongoose.model("Word", WordSchema);
-
-module.exports = Word;
+mongoose.model("Word", WordSchema);

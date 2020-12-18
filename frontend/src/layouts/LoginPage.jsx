@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { authenticationService } from '../services/authentication.service';
+import { authenticationService } from "../services/authentication.service";
 import "./../css/LoginScreen.css";
 
 class LoginPage extends Component {
@@ -8,7 +8,7 @@ class LoginPage extends Component {
 
     // redirect to home if already logged in
     if (authenticationService.currentUserValue) {
-      window.location.href = '/'
+      window.location.href = "/";
     }
   }
 
@@ -17,7 +17,7 @@ class LoginPage extends Component {
     password: "",
     fail_message: "",
     loading: false,
-  }
+  };
 
   handleUserNameChange = (event) => {
     const newValue = event.target.value;
@@ -32,14 +32,14 @@ class LoginPage extends Component {
     this.setState({
       password: newValue,
       fail_message: "",
-    })
-  }
+    });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
     if (!this.state.username || !this.state.password) {
       this.setState({
-        fail_message: "Please fill it all"
+        fail_message: "Please fill it all",
       });
       return;
     }
@@ -48,19 +48,18 @@ class LoginPage extends Component {
       fail_message: "",
     });
 
-    authenticationService.login(this.state.username, this.state.password)
-      .then(
-        user => {
-          window.location.href = '/';
-        },
-        error => {
-          console.log(error);
-          this.setState({
-            loading: false,
-            fail_message: error.message,
-          })
-        }
-      )
+    authenticationService.login(this.state.username, this.state.password).then(
+      (user) => {
+        window.location.href = "/";
+      },
+      (error) => {
+        console.log(error);
+        this.setState({
+          loading: false,
+          fail_message: error.message,
+        });
+      }
+    );
 
     // fetch('http://localhost:3001/api/login', {
     //   method: 'POST',
@@ -101,7 +100,7 @@ class LoginPage extends Component {
     //       fail_message: error.message,
     //     });
     //   });
-  }
+  };
 
   render() {
     return (
@@ -132,26 +131,31 @@ class LoginPage extends Component {
               onChange={this.handlePasswordChange}
             />
           </div>
-          {(!this.state.fail_message) ? <div></div> : <div className="alert alert-danger">{this.state.fail_message}</div>}
-          {
-            (!this.state.loading)
-              ?
-              <div className="form-group">
-                <button className="btn btn-primary btn-block" type="submit">
-                  Log In
-            </button>
+          {!this.state.fail_message ? (
+            <div></div>
+          ) : (
+            <div className="alert alert-danger">{this.state.fail_message}</div>
+          )}
+          {!this.state.loading ? (
+            <div className="form-group">
+              <button className="btn btn-primary btn-block" type="submit">
+                Log In
+              </button>
+            </div>
+          ) : (
+            <div className="d-flex justify-content-around row">
+              <div className="spinner-border " role="status">
+                <span className="sr-only">Loading...</span>
               </div>
-              :
-              <div className="d-flex justify-content-around row">
-                <div className="spinner-border " role="status">
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </div>
-          }
-
+            </div>
+          )}
 
           <a href="#" className="forgot">
-            If you don't have an account, please sign up.
+            If you don't have an account, please{" "}
+            <a href="signup" class="signup-link">
+              sign up
+            </a>
+            .
           </a>
         </form>
       </div>
