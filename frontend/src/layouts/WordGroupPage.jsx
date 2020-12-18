@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HeaderWeb from "../components/HeaderWeb";
 import Footer from "../components/Footer";
 import { authHeader } from '../helpers';
+import { authenticationService } from '../services/authentication.service'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -37,11 +38,6 @@ class WordItem extends Component {
     })
   }
 
-  componentDidUpdate() {
-    this.childContent.current.updateContent(this.props.wordName);
-  }
-
-
   handleClose = () => this.setShow(false);
   handleShow = () => this.setShow(true);
 
@@ -57,7 +53,7 @@ class WordItem extends Component {
             <Modal.Title>{this.props.wordName}</Modal.Title>
           </Modal.Header>
           <Modal.Body scrollable={true}>
-            <WordContent ref={this.childContent} style={{'max-height': 'calc(100vh - 210px)', 'overflow-y': 'scroll'}}/>
+            <WordContent initWord={this.props.wordName} style={{ 'max-height': 'calc(100vh - 210px)', 'overflow-y': 'scroll' }} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
@@ -79,6 +75,10 @@ class WordGroupPage extends Component {
 
   constructor(props) {
     super(props);
+    if (!authenticationService.currentUserValue) {
+      window.alert("You must login");
+      window.location.href = '/';
+    }
   }
 
   state = {
@@ -93,7 +93,14 @@ class WordGroupPage extends Component {
         method: 'GET',
         headers: authHeader(),
         credentials: 'include',
-      }).then((res) => { return res.json(); })
+      }).then((res) => { 
+        if ([401, 403].indexOf(res.status) !== -1) {
+          window.alert("Error loading Word Group");
+          window.location.href = "/";
+          return res.json();
+        }
+        else return res.json(); 
+      })
       if (result.wGroup) {
         this.setState({
           name: result.wGroup.name,
@@ -122,7 +129,7 @@ class WordGroupPage extends Component {
       console.log(result);
       if (result.success) {
         try {
-          const addResult = await fetch(`http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}/words/${result.data._id}`, {
+          await fetch(`http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}/words/${result.data._id}`, {
             method: 'PUT',
             headers: authHeader(),
             credentials: 'include',
@@ -149,11 +156,14 @@ class WordGroupPage extends Component {
         method: 'DELETE',
         headers: authHeader(),
         credentials: 'include',
-      }).then((res) => { return res.json(); })
+      }).then((res) => {
+        console.log(res);
+        return res.json(); 
+      });
       console.log(result);
-      if (!result) {
-        console.log("Word Group has been deleted");
-        window.location.href('/learning')
+      if (result.success) {
+        window.alert("Word Group has been deleted");
+        window.location.href = '/learning';
       }
       else {
         console.log("Can't delete");
@@ -165,6 +175,7 @@ class WordGroupPage extends Component {
   }
 
   componentWillMount() {
+
     this.getData();
   }
 
@@ -187,43 +198,57 @@ class WordGroupPage extends Component {
                   <ListItemText primary="Drafts" />
                 </ListItem>
                 <Divider />
-                <ListItem>
-                  <Button variant="primary" onClick={this.handleDelete}>
-                    Delete
-                  </Button>
+
+                <ListItem button onClick={this.handleDelete}>
+                  <ListItemText primary="Delete" />
+
                 </ListItem>
-                <ListItem>
-                  <RenameGroupButton id={this.props.match.params.wordGroupId} resetData={this.getData} oldTitle={this.state.name}></RenameGroupButton>
-                </ListItem>
-                <ListItem>
-                  <Button variant="primary" onClick={()=>{window.location.href = `/learnGroup/${this.props.match.params.wordGroupId}`}}>
-                    Learn this Group
-                  </Button>
+
+                <RenameGroupButton id={this.props.match.params.wordGroupId} resetData={this.getData} oldTitle={this.state.name}></RenameGroupButton>
+
+
+                <ListItem button onClick={() => { window.location.href = `/learnGroup/${this.props.match.params.wordGroupId}` }}>
+                  <ListItemText primary="Learn this Group" />
                 </ListItem>
 
               </List>
             </div>
             <div className="col-8">
-              <div className="row">
-                <div className="col-10 offset-2 offset-md-0">
-                  <h1 style={{ textAlign: "left" }}>{this.state.name}</h1>
+              <div className="container">
+                <div className="row">
+                  <div className="col-10 offset-2 offset-md-0">
+                    <h1 style={{ textAlign: "left" }}>{this.state.name}</h1>
+                  </div>
+                </div>
+                <div className="row">
+                  <SearchBar parentCallBack={this.addNewWord}></SearchBar>
+                </div>
+                <div className="row">
+                  <h3 style={{ textAlign: "left" }}>Word List</h3>
+                </div>
+                <div className="row justify-content-start" >
+                  <div className="col-12">
+                    <List width={1} style={
+                      {
+                        maxHeight: "500px",
+                        overflowY: "scroll",
+                        WebkitOverflowScrolling: "touch"
+                      }
+                    }>
+                      {this.state.words.map((value, index) => {
+                        return (
+                          <div>
+                            <WordItem width={1} wordName={value.word}></WordItem>
+                            <Divider></Divider>
+                          </div>
+                        )
+                      })}
+                    </List>
+                  </div>
+
                 </div>
               </div>
-              <div className="row">
-                <SearchBar parentCallBack={this.addNewWord}></SearchBar>
-              </div>
-              <div className="row">
-                <h3 style={{ textAlign: "left" }}>Word List</h3>
-              </div>
-              <div className="row d-flex flex-row justify-content-start" >
-                <List style={{ maxHeight: "500px" }, { overflow: "scroll" }, {WebkitOverflowScrolling: "touch"}}>
-                  {this.state.words.map((value, index) => {
-                    return (
-                      <WordItem wordName={value.word}></WordItem>
-                    )
-                  })}
-                </List>
-              </div>
+
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HeaderWeb from "../components/HeaderWeb";
 import Footer from "../components/Footer";
 import { authHeader } from '../helpers';
+import { authenticationService } from '../services/authentication.service'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -22,6 +23,9 @@ function AddGroupButton(props) {
 
   const handleInputChange = (event) => { setInput(event.target.value) }
   const handleSubmit = async () => {
+    if (input === "") {
+      return;
+    }
     try {
       const result = await fetch(`http://localhost:3001/api/wordGroups`, {
         method: 'PUT',
@@ -31,9 +35,15 @@ function AddGroupButton(props) {
           name: input
         }),
       }).then((res) => { return res.json(); })
-
+      if (result._id) {
+        props.resetData();
+        handleClose();
+      }
+      else {
+        window.alert("Error Creating Word Group");
+      }
       console.log(result);
-      props.resetData();
+
     }
     catch (error) {
       window.alert(error.message);
@@ -74,27 +84,21 @@ function AddGroupButton(props) {
 
 class WordGroup extends Component {
 
-  constructor(props) {
-    super(props);
-    if (!authenticationService.currentUserValue) {
-      window.alert("You must login");
-      window.location.href = '/'
-    }
-  }
-
   handleOnClick = () => {
     window.location.href = `/wordGroups/${this.props.id}`
   }
 
   render() {
     return (
-      <div className="col-lg-5 col-md-9">
+      <div className="col-lg-6 col-md-11">
         <div className="card">
-          <div class="card-body">
-            <h5 class="card-title " style={{ textAlign: "left" }}>{this.props.title}</h5>
+          <div className="card-body">
+            <h5 className="card-title " style={{ textAlign: "left" }}>{this.props.title}</h5>
             <div className="d-flex justify-content-around">
               <RenameGroupButton id={this.props.id} resetData={this.props.resetData} oldTitle={this.props.title}></RenameGroupButton>
-              <Button variant="primary" onClick={this.handleOnClick}>Show Detail</Button>
+              <ListItem button onClick={this.handleOnClick}>
+                <ListItemText primary="Show Detail" />
+              </ListItem>
             </div>
           </div>
         </div>
@@ -108,10 +112,13 @@ class LearningPage extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  state = {
-    wordGroups: [],
+    if (!authenticationService.currentUserValue) {
+      window.alert("You must login");
+      window.location.href = '/'
+    }
+    this.state = {
+      wordGroups: [],
+    }
   }
 
   getData = async () => {
@@ -120,7 +127,9 @@ class LearningPage extends Component {
         method: 'GET',
         headers: authHeader(),
         credentials: 'include',
-      }).then((res) => { return res.json(); })
+      }).then((res) => {
+        return res.json();
+      })
       this.setState({
         wordGroups: result
       });
@@ -137,6 +146,7 @@ class LearningPage extends Component {
   }
 
   render() {
+
     return (
       <div>
 
@@ -166,7 +176,7 @@ class LearningPage extends Component {
                   <h1 style={{ textAlign: "left" }}>All Word Groups</h1>
                 </div>
               </div>
-              <div className="row d-flex flex-row justify-content-start" style={{ maxHeight: "500px" },{overflow:"scroll"}}>
+              <div className="row  justify-content-start" style={{ maxHeight: "500px", overflowY: "scroll" }}>
                 {this.state.wordGroups.map((value, index) => {
                   return (
                     <WordGroup id={value._id} title={value.name} resetData={this.getData}></WordGroup>

@@ -62,45 +62,6 @@ class LoginPage extends Component {
         }
       )
 
-    // fetch('http://localhost:3001/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   credentials: 'include',
-    // body: JSON.stringify({
-    //   email: this.state.username,
-    //   password: this.state.password,
-    // }),
-    // })
-    //   .then((response) => {
-    //     // response.json() only when server reponse with json
-    //     // response.text() only when server response with string
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data)
-    //     if (data.token) {
-    //       this.setState({ loading: false, });
-    //       window.localStorage.setItem('currentEmail', data.data.email);
-    //       window.localStorage.setItem('username', data.data.fullName);
-    //       window.location.href = '/';
-    //     }
-    //     else {
-    //       console.log(data);
-    //       this.setState({
-    //         loading: false,
-    //         fail_message: data.message,
-    //       })
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     this.setState({
-    //       loading: false,
-    //       fail_message: error.message,
-    //     });
-    //   });
   }
 
   render() {
@@ -137,9 +98,9 @@ class LoginPage extends Component {
             (!this.state.loading)
               ?
               <div className="form-group">
-                <button className="btn btn-primary btn-block" type="submit">
+                <button className="btn btn-primary btn-block" onClick={this.handleSubmit}>
                   Log In
-            </button>
+              </button>
               </div>
               :
               <div className="d-flex justify-content-around row">
@@ -150,9 +111,9 @@ class LoginPage extends Component {
           }
 
 
-          <a href="#" className="forgot">
+          <p className="forgot">
             If you don't have an account, please sign up.
-          </a>
+          </p>
         </form>
       </div>
     );

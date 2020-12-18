@@ -12,36 +12,38 @@ export default class HeaderWeb extends Component {
     }
 
     componentWillMount() {
-        if(authenticationService.currentUserValue){
+        if (authenticationService.currentUserValue) {
             fetch(`http://localhost:3001/api/me`, {
-            method: 'GET',
-            headers: authHeader(),
-            credentials: 'include',
+                method: 'GET',
+                headers: authHeader(),
+                credentials: 'include',
 
-        })
-            .then((res) => { return res.json(); })
-            .then((data) => {
-                if (data._id) {
-                    this.setState({
-                        login: true,
-                        email: data.email,
-                        name: data.name,
-                        userId: data._id
-                    });
-                }
-                else (
-                    this.setState({
-                        login: false,
-                        email: "",
-                        name: "",
-                        userId: ""
-                    })
-                )
-                console.log(data);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+                .then((res) => { return res.json(); })
+                .then((data) => {
+                    if (data._id) {
+                        this.setState({
+                            login: true,
+                            email: data.email,
+                            name: data.name,
+                            userId: data._id
+                        });
+                    }
+                    else {
+                        this.setState({
+                            login: false,
+                            email: "",
+                            name: "",
+                            userId: ""
+                        })
+                        authenticationService.logout();
+                    }
+
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
 
@@ -58,11 +60,10 @@ export default class HeaderWeb extends Component {
     render() {
         return (
             <div>
-                <header className="section-header" style={{top: 0}}>
+                <header className="section-header" style={{ top: 0 }}>
                     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
-                        <a className="navbar-brand" href="#">
-                            <img src=""
-                                height="28" alt="Dict" />
+                        <a className="navbar-brand" href="/">
+                            Dict
                         </a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -70,22 +71,28 @@ export default class HeaderWeb extends Component {
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
                                 <li className="nav-item active">
-                                    <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                                    <a className="nav-link" href="/">Home <span className="sr-only"></span></a>
                                 </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/learning">Studying</a>
-                                </li>
+                                {(this.state.login)
+                                    ?
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="/learning">Word Groups</a>
+                                    </li>
+                                    :
+                                    <div></div>
+                                }
+
                             </ul>
 
 
                         </div>
                         {(this.state.login) ?
                             <ul className="nav navbar-nav navbar-right" >
-                                <li onClick={this.logout}>Logout</li>
+                                <li onClick={this.logout}><a href="/"> Logout</a></li>
                             </ul>
                             :
                             <ul className="nav navbar-nav navbar-right" >
-                                <li><a href="login">Login</a></li>
+                                <li><a href="/login">Login</a></li>
                             </ul>
                         }
                     </nav>

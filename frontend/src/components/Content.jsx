@@ -31,7 +31,7 @@ export default class Content extends Component {
 									<div className="embed-responsive embed-responsive-16by9 ">
 										{/* <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/vlDzYIIOYmM"
 											allowfullscreen></iframe> */}
-											<iframe width="560" height="315" src="https://www.youtube.com/embed/TI-pfeaErY4" 
+											<iframe title="Youtube Ad" width="560" height="315" src="https://www.youtube.com/embed/TI-pfeaErY4" 
 											frameborder="0" 
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 											allowfullscreen></iframe>
@@ -43,26 +43,26 @@ export default class Content extends Component {
 												<div className="col-lg-6">
 													<ul className="list-unstyled mb-0">
 														<li>
-															<a href="#">Web Design</a>
+															Web Design
 														</li>
 														<li>
-															<a href="#">HTML</a>
+															HTML
 														</li>
 														<li>
-															<a href="#">Freebies</a>
+															Freebies
 														</li>
 													</ul>
 												</div>
 												<div className="col-lg-6">
 													<ul className="list-unstyled mb-0">
 														<li>
-															<a href="#">JavaScript</a>
+															JavaScript
 														</li>
 														<li>
-															<a href="#">CSS</a>
+															CSS
 														</li>
 														<li>
-															<a href="#">Tutorials</a>
+															Tutorials
 														</li>
 													</ul>
 												</div>

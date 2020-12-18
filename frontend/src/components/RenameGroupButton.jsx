@@ -2,6 +2,8 @@ import React from 'react';
 import { authHeader } from '../helpers';
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 function RenameGroupButton(props) {
   const [show, setShow] = React.useState(false);
@@ -22,10 +24,10 @@ function RenameGroupButton(props) {
         }),
       }).then((res) => { return res.json(); })
 
-      if(result._id){
+      if (result._id) {
         props.resetData();
       }
-      
+
     }
     catch (error) {
       window.alert(error.message);
@@ -34,9 +36,9 @@ function RenameGroupButton(props) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Rename
-      </Button>
+      <ListItem button onClick={handleShow}>
+        <ListItemText primary="Rename" />
+      </ListItem>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

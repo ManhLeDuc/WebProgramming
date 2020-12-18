@@ -40,17 +40,22 @@ export default class WordContent extends Component {
 		}
 	}
 
+	componentWillMount() {
+		if(this.props.initWord)
+			this.updateContent(this.props.initWord)
+	}
+
 	render() {
 
 		return (
 			<div className="container">
-				<div className="row">
-					<h2>{this.state.word}</h2>
+				<div className="row justify-content-between">
+					<h1>{this.state.word}</h1>
 					<h3>{this.state.pronunciation}</h3>
 				</div>
 				{this.state.datas.map((value, index) => {
 					return (
-						<DataContent type={value.type} meanings={value.meanings}></DataContent>
+						<DataContent key={index} type={value.type} meanings={value.meanings}></DataContent>
 					)
 				})}
 			</div>

@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const ctrlWords = require("../../app_api/controllers/wordController");
-const ctrlOthers = require("../../app_api/controllers/aboutController");
+const ctrlWords = require('../../app_api/controllers/words');
+const ctrlOthers = require('../../app_api/controllers/others');
 
-router.get("/", ctrlWords.getWordsByWordRegex);
+router.get('/', ctrlWords.wordsByRegex);
 
-router.get("/about", ctrlOthers.about);
+router.get('/about', ctrlOthers.about);
 
 module.exports = router;

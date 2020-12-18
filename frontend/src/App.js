@@ -7,7 +7,6 @@ import "./App.css";
 import HomePage from "./layouts/HomePage";
 import LoginPage from "./layouts/LoginPage";
 import SignUpPage from "./layouts/SignUpPage";
-import Main from "./layouts/Main";
 import LearningPage from "./layouts/LearningPage";
 import WordGroupPage from "./layouts/WordGroupPage";
 import LearnGroup from "./layouts/LearnGroup";
@@ -21,7 +20,6 @@ export default class App extends Component {
             <Redirect exact from="/" to="/homepage" />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignUpPage} />
-            <Route exact path="/flashcard" component={Main} />
             <Route exact path="/learning" component={LearningPage} />
             <Route exact path="/homepage" component={HomePage} />
             <Route exact path='/wordGroups/:wordGroupId' component={WordGroupPage} />

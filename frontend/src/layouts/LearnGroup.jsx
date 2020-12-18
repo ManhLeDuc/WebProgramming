@@ -3,6 +3,7 @@ import HeaderWeb from "../components/HeaderWeb";
 import Footer from "../components/Footer";
 import WordContent from '../components/WordContent'
 import { authHeader } from '../helpers';
+import {authenticationService} from '../services/authentication.service'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -31,10 +32,6 @@ const shuffle = (array) => {
 class CardFront extends React.Component {
   state = {
     text: "",
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   updateContent = (newWord) => {

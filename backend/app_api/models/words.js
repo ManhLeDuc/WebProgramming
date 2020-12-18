@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ExampleSchema = new mongoose.Schema({
   data: String,
@@ -31,6 +31,4 @@ const WordSchema = new mongoose.Schema({
   collocations: [CollocationSchema],
 });
 
-const Word = mongoose.model("Word", WordSchema);
-
-module.exports = Word;
+mongoose.model('Word', WordSchema);
