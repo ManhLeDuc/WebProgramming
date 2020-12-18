@@ -72,7 +72,7 @@ exports.deleteWordGroup = (req, res) => {
     if (err) {
       return res.status(404).json(err);
     } else {
-      return res.status(204).json(null);
+      return res.status(204).json({sucess:true});
     }
   });
 };
@@ -131,18 +131,17 @@ exports.addWordToGroup = (req, res) => {
 
 exports.deleteWordFromGroup = (req, res) => {
   wordGroup = req.wordGroup;
-  if (wordGroup.wordIds.length > 0) {
-    if (!wordGroup.wordIds.includes(req.params.wordId)) {
-      return res.status(404).json({ message: "Word not found in Group" });
-    } else {
-      wordGroup.wordIds.remove(req.params.wordId);
-      wordGroup.save((err, wGroup) => {
-        if (err) {
-          return res.status(404).json(err);
-        } else {
-          return res.status(200).json(wGroup);
-        }
-      });
-    }
+  if (!wordGroup.wordIds.includes(req.params.wordId)) {
+    return res.status(404).json({ message: "Word not found in Group" });
+  } else {
+    wordGroup.wordIds.remove(req.params.wordId);
+    wordGroup.save((err, wGroup) => {
+      if (err) {
+        return res.status(404).json(err);
+      } else {
+        return res.status(200).json(wGroup);
+      }
+    });
   }
+
 };
