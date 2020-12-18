@@ -105,7 +105,7 @@ class LearnGroup extends Component {
   getData = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}`,
+        `http://localhost:3001/api/v1/wordGroup/${this.props.match.params.wordGroupId}`,
         {
           method: "GET",
           headers: authHeader(),

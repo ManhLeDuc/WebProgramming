@@ -42,8 +42,8 @@ app.use(
 app.use("/", indexRouter);
 app.use("/api/v1/users", regularUserRouter);
 app.use("/api/v1/words", wordRouter);
-app.use("/api/v1/wordGroup", wordGroupRouter);
-app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/wordGroups", wordGroupRouter);
+app.use("/api/v1/admins", adminRouter);
 
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {

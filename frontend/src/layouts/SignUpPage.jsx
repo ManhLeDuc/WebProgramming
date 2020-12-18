@@ -9,7 +9,7 @@ class SignUpPage extends Component {
     confirm_password: "",
     fail_message: "",
     loading: false,
-  }
+  };
 
   handleUserNameChange = (event) => {
     const newValue = event.target.value;
@@ -32,54 +32,59 @@ class SignUpPage extends Component {
     this.setState({
       password: newValue,
       fail_message: "",
-    })
-  }
+    });
+  };
 
   handleConfirmPasswordChange = (event) => {
     const newValue = event.target.value;
     this.setState({
       confirm_password: newValue,
       fail_message: "",
-    })
-  }
+    });
+  };
 
   handleSubmit = (event) => {
     // eslint-disable-next-line
     var emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     event.preventDefault();
-    if (!this.state.username || !this.state.displayname || !this.state.password || !this.state.confirm_password) {
+    if (
+      !this.state.username ||
+      !this.state.displayname ||
+      !this.state.password ||
+      !this.state.confirm_password
+    ) {
       this.setState({
-        fail_message: "Please fill it all"
+        fail_message: "Please fill it all",
       });
       return;
     }
     if (this.state.password !== this.state.confirm_password) {
       this.setState({
-        fail_message: "Password and Confirm password must be the same"
+        fail_message: "Password and Confirm password must be the same",
       });
       return;
     }
     if (!emailRegex.test(this.state.username)) {
       this.setState({
-        fail_message: "Invalid email address"
+        fail_message: "Invalid email address",
       });
       return;
     }
     if (this.state.password.length < 6) {
       this.setState({
-        fail_message: "Password must be at least 6 characters"
+        fail_message: "Password must be at least 6 characters",
       });
       return;
     }
     this.setState({
       loading: true,
-    })
-    fetch('http://localhost:3001/api/register', {
-      method: 'POST',
+    });
+    fetch("http://localhost:3001/api/v1/users/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify({
         email: this.state.username,
         name: this.state.displayname,
@@ -97,12 +102,11 @@ class SignUpPage extends Component {
             loading: false,
           });
           window.location.href = `/`;
-        }
-        else {
+        } else {
           this.setState({
             fail_message: data.message,
             loading: false,
-          })
+          });
         }
       })
       .catch((error) => {
@@ -110,9 +114,9 @@ class SignUpPage extends Component {
         this.setState({
           fail_message: error.message,
           loading: false,
-        })
+        });
       });
-  }
+  };
 
   render() {
     return (
@@ -163,9 +167,16 @@ class SignUpPage extends Component {
               onChange={this.handleConfirmPasswordChange}
             />
           </div>
-          {(!this.state.fail_message) ? <div></div> : <div className="alert alert-danger">{this.state.fail_message}</div>}
+          {!this.state.fail_message ? (
+            <div></div>
+          ) : (
+            <div className="alert alert-danger">{this.state.fail_message}</div>
+          )}
           <div className="form-group">
-            <button className="btn btn-primary btn-block" onClick={this.handleSubmit} >
+            <button
+              className="btn btn-primary btn-block"
+              onClick={this.handleSubmit}
+            >
               Sign up
             </button>
           </div>

@@ -4,10 +4,9 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 // import 'bootstrap-css-only/css/bootstrap.min.css';
 // import 'mdbreact/dist/css/mdb.css';
 import "./App.css";
-import HomePage from "./layouts/HomePage";
+import DicPage from "./layouts/DicPage";
 import LoginPage from "./layouts/LoginPage";
 import SignUpPage from "./layouts/SignUpPage";
-import Main from "./layouts/Main";
 import LearningPage from "./layouts/LearningPage";
 import WordGroupPage from "./layouts/WordGroupPage";
 import LearnGroup from "./layouts/LearnGroup";
@@ -15,17 +14,25 @@ import LearnGroup from "./layouts/LearnGroup";
 export default class App extends Component {
   render() {
     return (
-      <div class="App">
+      <div className="App">
         <BrowserRouter>
           <Switch>
-            <Redirect exact from="/" to="/homepage" />
+            <Redirect exact from="/" to="/dictionarypage" />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignUpPage} />
-            <Route exact path="/flashcard" component={Main} />
+
             <Route exact path="/learning" component={LearningPage} />
-            <Route exact path="/homepage" component={HomePage} />
-            <Route exact path='/wordGroups/:wordGroupId' component={WordGroupPage} />
-            <Route exact path='/learnGroup/:wordGroupId' component={LearnGroup} />
+            <Route exact path="/dictionarypage" component={DicPage} />
+            <Route
+              exact
+              path="/wordGroups/:wordGroupId"
+              component={WordGroupPage}
+            />
+            <Route
+              exact
+              path="/learnGroup/:wordGroupId"
+              component={LearnGroup}
+            />
           </Switch>
         </BrowserRouter>
       </div>

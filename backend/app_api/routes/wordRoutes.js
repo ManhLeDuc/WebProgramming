@@ -14,14 +14,7 @@ const authAdmin = jwt({
 });
 //-----------------------------------------
 
-router.route("/").post(
-  authAdmin,
-  (req, res, next) => {
-    res.send("You are authenticated as an admin");
-    next();
-  },
-  wordController.addWord
-);
+router.route("/").post(authAdmin, wordController.addWord);
 
 router.route("/regex/:wordRegex").get(wordController.getWordsByWordRegex);
 
@@ -30,23 +23,7 @@ router.route("/:word").get(wordController.getWordByWordName);
 router
   .route("/:id")
   .get(wordController.wordIdIfExist, wordController.getWordById)
-  .patch(
-    authAdmin,
-    (req, res, next) => {
-      res.send("You are authenticated as an admin");
-      next();
-    },
-    wordController.wordIdIfExist,
-    wordController.updateWord
-  )
-  .delete(
-    authAdmin,
-    (req, res, next) => {
-      res.send("You are authenticated as an admin");
-      next();
-    },
-    wordController.wordIdIfExist,
-    wordController.deleteWord
-  );
+  .put(authAdmin, wordController.wordIdIfExist, wordController.updateWord)
+  .delete(authAdmin, wordController.wordIdIfExist, wordController.deleteWord);
 
 module.exports = router;

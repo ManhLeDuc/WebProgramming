@@ -15,14 +15,7 @@ const auth = jwt({
 });
 //-----------------------------------------
 
-router.route("/me").get(
-  auth,
-  (req, res, next) => {
-    res.send("You are authenticated");
-    next();
-  },
-  userController.getUserInfo
-);
+router.route("/me").get(auth, userController.getUserInfo);
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);

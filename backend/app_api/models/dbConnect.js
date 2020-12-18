@@ -4,10 +4,14 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: "./config.env" });
 
+/*
 let dbURL = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
-);
+);*/
+
+let dbURL = process.env.DATABASE_LOCAL;
+
 if (process.env.NODE_ENV === "production") {
   dbURL = process.env.DB_HOST || process.env.MONGODB_URI;
 }

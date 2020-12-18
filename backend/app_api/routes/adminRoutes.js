@@ -17,14 +17,7 @@ const authAdmin = jwt({
 });
 //-----------------------------------------
 
-router.route("/me").get(
-  authAdmin,
-  (req, res, next) => {
-    res.send("You are authenticated as a admin");
-    next();
-  },
-  adminController.getAdminInfo
-);
+router.route("/me").get(authAdmin, adminController.getAdminInfo);
 
 router.route("/addAdmin").post(authAdmin, authController.addAdmin);
 router.post("/login", authController.adminLogin);

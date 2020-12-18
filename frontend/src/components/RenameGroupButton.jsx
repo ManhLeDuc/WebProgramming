@@ -1,7 +1,7 @@
-import React from 'react';
-import { authHeader } from '../helpers';
-import Button from "react-bootstrap/Button"
-import Modal from "react-bootstrap/Modal"
+import React from "react";
+import { authHeader } from "../helpers";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function RenameGroupButton(props) {
   const [show, setShow] = React.useState(false);
@@ -10,27 +10,32 @@ function RenameGroupButton(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleInputChange = (event) => { setInput(event.target.value) }
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
   const handleSubmit = async () => {
     try {
-      const result = await fetch(`http://localhost:3001/api/wordGroups/${props.id}`, {
-        method: 'PUT',
-        headers: authHeader(),
-        credentials: 'include',
-        body: JSON.stringify({
-          name: input
-        }),
-      }).then((res) => { return res.json(); })
+      const result = await fetch(
+        `http://localhost:3001/api/v1/wordGroups/${props.id}`,
+        {
+          method: "PUT",
+          headers: authHeader(),
+          credentials: "include",
+          body: JSON.stringify({
+            name: input,
+          }),
+        }
+      ).then((res) => {
+        return res.json();
+      });
 
-      if(result._id){
+      if (result._id) {
         props.resetData();
       }
-      
-    }
-    catch (error) {
+    } catch (error) {
       window.alert(error.message);
     }
-  }
+  };
 
   return (
     <>

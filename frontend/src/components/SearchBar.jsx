@@ -13,7 +13,7 @@ export default class SearchBar extends Component {
     if (e.target.value !== "") {
       try {
         const result = await fetch(
-          `http://localhost:3001/api/wordsByRegex/${e.target.value}`,
+          `http://localhost:3001/api/v1/words/regex/${e.target.value}`,
           {
             method: "GET",
             headers: {
@@ -60,9 +60,10 @@ export default class SearchBar extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container search-bar-dic-container">
         <form onSubmit={this.searchWord}>
           <TextField
+            className="search-bar-dic"
             label="Search"
             variant="outlined"
             fullWidth={true}

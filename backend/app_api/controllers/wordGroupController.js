@@ -13,6 +13,7 @@ exports.authOwnerWordGroup = (req, res, next) => {
       } else if (wordGroup.owner.toString() !== req.payload._id) {
         return res.status(404).json({ message: "Bad Request" });
       } else {
+        req.wordGroup = wordGroup;
         next();
       }
     });
@@ -28,6 +29,7 @@ exports.wordIdIfExist = (req, res, next) => {
     } else if (!wordRecord) {
       return res.status(404).json({ message: "Invalid Word ID" });
     } else {
+      req.wordRecord = wordRecord;
       next();
     }
   });
@@ -52,6 +54,8 @@ exports.createWordGroup = (req, res) => {
 };
 
 exports.updateWordGroup = (req, res) => {
+  wordGroup = req.wordGroup;
+  console.log("test");
   wordGroup.name = req.body.name;
   wordGroup.save((err, wGroup) => {
     if (err) {
@@ -63,6 +67,7 @@ exports.updateWordGroup = (req, res) => {
 };
 
 exports.deleteWordGroup = (req, res) => {
+  wordGroup = req.wordGroup;
   WordGroupModel.findByIdAndDelete(wordGroup._id).exec((err, wGroup) => {
     if (err) {
       return res.status(404).json(err);
@@ -89,6 +94,8 @@ exports.getAllWordGroups = (req, res) => {
 };
 
 exports.getWordGroup = (req, res) => {
+  wordRecord = req.wordRecord;
+  wordGroup = req.wordGroup;
   WordModel.find()
     .where("_id")
     .in(wordGroup.wordIds)
@@ -106,10 +113,12 @@ exports.getWordGroup = (req, res) => {
 };
 
 exports.getWordFromGroup = (req, res) => {
+  wordRecord = req.wordRecord;
   return res.status(200).json(wordRecord);
 };
 
 exports.addWordToGroup = (req, res) => {
+  wordGroup = req.wordGroup;
   wordGroup.wordIds.addToSet(req.params.wordId);
   wordGroup.save((err, wGroup) => {
     if (err) {
@@ -121,6 +130,7 @@ exports.addWordToGroup = (req, res) => {
 };
 
 exports.deleteWordFromGroup = (req, res) => {
+  wordGroup = req.wordGroup;
   if (wordGroup.wordIds.length > 0) {
     if (!wordGroup.wordIds.includes(req.params.wordId)) {
       return res.status(404).json({ message: "Word not found in Group" });

@@ -12,7 +12,7 @@ export default class HeaderWeb extends Component {
 
   componentWillMount() {
     if (authenticationService.currentUserValue) {
-      fetch(`http://localhost:3001/api/me`, {
+      fetch(`http://localhost:3001/api/v1/users/me`, {
         method: "GET",
         headers: authHeader(),
         credentials: "include",
@@ -88,12 +88,20 @@ export default class HeaderWeb extends Component {
             </div>
             {this.state.login ? (
               <ul className="nav navbar-nav navbar-right">
-                <li onClick={this.logout}>Logout</li>
+                <li>
+                  <a
+                    onClick={this.logout}
+                    href="logout"
+                    className="header-bar-link"
+                  >
+                    Logout
+                  </a>
+                </li>
               </ul>
             ) : (
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <a href="login" class="header-bar-link">
+                  <a href="login" className="header-bar-link">
                     Login
                   </a>
                 </li>

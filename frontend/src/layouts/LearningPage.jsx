@@ -122,7 +122,7 @@ class LearningPage extends Component {
 
   getData = async () => {
     try {
-      const result = await fetch(`http://localhost:3001/api/wordGroups`, {
+      const result = await fetch(`http://localhost:3001/api/v1/wordGroups`, {
         method: "GET",
         headers: authHeader(),
         credentials: "include",

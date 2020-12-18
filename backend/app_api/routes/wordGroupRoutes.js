@@ -17,49 +17,23 @@ const authRegularUser = jwt({
 
 router
   .route("/")
-  .get(
-    authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
-    wordGroupController.getAllWordGroups
-  )
-  .post(
-    authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
-    wordGroupController.createWordGroup
-  );
+  .get(authRegularUser, wordGroupController.getAllWordGroups)
+  .post(authRegularUser, wordGroupController.createWordGroup);
 
 router
   .route("/:wordGroupId")
   .get(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.getWordGroup
   )
-  .patch(
+  .put(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.updateWordGroup
   )
   .delete(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.deleteWordGroup
   );
@@ -68,30 +42,18 @@ router
   .route("/:wordGroupId/words/:wordId")
   .get(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.wordIdIfExist,
     wordGroupController.getWordFromGroup
   )
-  .patch(
+  .put(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.wordIdIfExist,
     wordGroupController.addWordToGroup
   )
   .delete(
     authRegularUser,
-    (req, res, next) => {
-      res.send("You are authenticated");
-      next();
-    },
     wordGroupController.authOwnerWordGroup,
     wordGroupController.wordIdIfExist,
     wordGroupController.deleteWordFromGroup

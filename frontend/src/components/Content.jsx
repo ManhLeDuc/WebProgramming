@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import WordContent from "./WordContent";
-//import hihi from '../static/image/138254.svg'
+
+import "./../css/content.css";
+
 export default class Content extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +17,8 @@ export default class Content extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-8" style={{ height: 500 }}>
-            <WordContent ref={this.childContent}></WordContent>
+          <div className="col-1" style={{ height: 500 }}>
+            <WordContent ref={this.childContent}>fsdfsfsdfsf</WordContent>
           </div>
           <div className="col-4">
             <div className="container">

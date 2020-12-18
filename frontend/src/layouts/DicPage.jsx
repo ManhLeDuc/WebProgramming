@@ -4,6 +4,8 @@ import SearchBar from "../components/SearchBar";
 import Footer from "../components/Footer";
 import Content from "../components/Content";
 
+import "./../css/DicPage.css";
+
 class HomePage extends Component {
   constructor(props) {
     super(props);

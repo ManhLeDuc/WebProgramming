@@ -92,7 +92,7 @@ class WordGroupPage extends Component {
   getData = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}`,
+        `http://localhost:3001/api/v1/wordGroups/${this.props.match.params.wordGroupId}`,
         {
           method: "GET",
           headers: authHeader(),
@@ -132,7 +132,7 @@ class WordGroupPage extends Component {
       if (result.success) {
         try {
           const addResult = await fetch(
-            `http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}/words/${result.data._id}`,
+            `http://localhost:3001/api/v1/wordGroups/${this.props.match.params.wordGroupId}/words/${result.data._id}`,
             {
               method: "PUT",
               headers: authHeader(),
@@ -156,7 +156,7 @@ class WordGroupPage extends Component {
   handleDelete = async () => {
     try {
       const result = await fetch(
-        `http://localhost:3001/api/wordGroups/${this.props.match.params.wordGroupId}`,
+        `http://localhost:3001/api/v1/wordGroups/${this.props.match.params.wordGroupId}`,
         {
           method: "DELETE",
           headers: authHeader(),

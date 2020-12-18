@@ -15,7 +15,7 @@ exports.wordIdIfExist = (req, res, next) => {
 };
 
 exports.getWordsByWordRegex = (req, res) => {
-  WordModel.find({ word: new RegExp(`^${req.params.word}`, "i") }, "word")
+  WordModel.find({ word: new RegExp(`^${req.params.wordRegex}`, "i") }, "word")
     .lean()
     .limit(10)
     .sort({ word: 1 })
